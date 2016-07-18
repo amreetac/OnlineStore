@@ -14,7 +14,7 @@ connection.connect(function(err) {
 })
 
 var productInfo = function() {
-    var query = 'SELECT ItemID, ProductName, Price FROM `Bamazon`;'
+    var query = 'SELECT ItemID, ProductName, Price FROM `Products`;'
     connection.query(query, function(err, res) {
         for (var i = 0; i < res.length; i++) {
             console.log(res[i].ItemID + " | " + res[i].ProductName + " | " + res[i].Price);
