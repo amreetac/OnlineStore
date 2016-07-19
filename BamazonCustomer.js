@@ -19,7 +19,30 @@ var productInfo = function() {
         for (var i = 0; i < res.length; i++) {
             console.log(res[i].ItemID + " | " + res[i].ProductName + " | " + res[i].Price);
         }
+        productMenu();
     })
 };
 
 productInfo();
+
+var productMenu = function(){
+
+var prompt = require('prompt');
+ 
+  // 
+  // Start the prompt 
+  // 
+  prompt.start();
+ 
+  // 
+  // Get two properties from the user: ID and number of units 
+  // 
+  prompt.get(['ItemID', 'StockQuantity'], function (err, res) {
+    // 
+    // Log the results. 
+    // 
+    console.log('Command-line input received:');
+    console.log('  username: ' + res[i].ItemID);
+    console.log('  email: ' + res[i].StockQuantity);
+  });
+}
