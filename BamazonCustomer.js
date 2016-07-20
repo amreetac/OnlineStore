@@ -47,19 +47,19 @@ var prompt = require('prompt');
 
     var query = 'SELECT StockQuantity FROM products WHERE ?'; 
 
-    connection.query(query, {StockQuantity: res.StockQuantity}, function(err, res) {
+    var database_values = connection.query(query, {StockQuantity: res.StockQuantity}, function(err, res) {
             for (var i = 0; i < res.length; i++) {
-                if ( res.StockQuantity< query) {   //how to define variable from database to compare with user input?
+                if (res.StockQuantity< database_values) {   //how to define variable from database to compare with user input?
                   console.log('Insufficient Quantity')
                 } else {
                   res[i].StockQuantity--;
+                  console.log('Total cost:' + res.StockQuantity * res.Price);
+                  console.log('Updated Stock Quantity:' + res.StockQuantity);
                   }
             }
 
   
     console.log('Command-line input received:');
-    console.log('  username: ' + res[i].ItemID);
-    console.log('  email: ' + res[i].StockQuantity);
   });
 });
 }
