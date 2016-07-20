@@ -41,8 +41,10 @@ var prompt = require('prompt');
     // 
     // Log the results. 
     // 
+    for (var i = 0; i < res.length; i++) {
     console.log('Command-line input received:');
     console.log('  username: ' + res[i].ItemID);
     console.log('  email: ' + res[i].StockQuantity);
+  }
   });
 }
