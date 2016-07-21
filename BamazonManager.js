@@ -1,5 +1,6 @@
 var mysql = require('mysql');
 var prompt = require('prompt');
+var inquirer = require('inquirer');
 
 var connection = mysql.createConnection({
     host: "localhost",
@@ -12,6 +13,37 @@ var connection = mysql.createConnection({
 connection.connect(function(err) {
     if (err) throw err;
 })
+
+var productMenu = function() {
+    inquirer.prompt({
+        name: "action",
+        type: "list",
+        message: "What would you like to do?",
+        choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product"]
+    }).then(function(answer) {
+        switch(answer.action) {
+            case ' View Products for Sale':
+                viewProducts();
+            break;
+            
+            case 'View Low Inventory':
+                multiSearch();
+            break;
+            
+            case 'Add to Inventory':
+                rangeSearch();
+            break;
+            
+            case 'Add New Product':
+                songSearch();
+            break;
+        }
+    })
+};
+
+productMenu();
+
+/*
 
 var productInfo = function() {
     var query = 'SELECT ItemID, ProductName, Price FROM `Products`;'
@@ -67,3 +99,4 @@ var prompt = require('prompt');
   });
 });
 }
+*/
