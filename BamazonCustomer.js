@@ -48,19 +48,19 @@ var prompt = require('prompt');
     var query = 'SELECT StockQuantity, Price FROM products WHERE ItemID = ?'; 
 
     var database_values = connection.query(query, {ItemID: prompt_result.ItemID}, function(err, query_res) {
-            //console.log(query_res.length);
+            console.log(query_res.ItemID);
             //console.log(database_values);
-            
-                if (prompt_result.StockQuantity > query_res.StockQuantity) {   
+            for (var i = 0; i < query_res.length; i++) {
+                if (prompt_result.StockQuantity > query_res[i].StockQuantity) {   
                   console.log('Insufficient Quantity')
                 } else {
-                  query_res.StockQuantity-= prompt_result.StockQuantity;
+                  query_res[i].StockQuantity-= prompt_result.StockQuantity;
 
-                  console.log('Total cost:' + prompt_result.StockQuantity * query_res.Price);
-                  console.log('Updated Stock Quantity:' + query_res.StockQuantity);
-                  console.log('Price:' + query_res.Price);
+                  console.log('Total cost:' + prompt_result.StockQuantity * query_res[i].Price);
+                  console.log('Updated Stock Quantity:' + query_res[i].StockQuantity);
+                  console.log('Price:' + query_res[i].Price);
                   }
-            
+            }
 
   
     console.log('Command-line input received:');

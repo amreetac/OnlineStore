@@ -12,6 +12,7 @@ var connection = mysql.createConnection({
 
 connection.connect(function(err) {
     if (err) throw err;
+    productMenu();
 })
 
 var productMenu = function() {
@@ -22,39 +23,51 @@ var productMenu = function() {
         choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product"]
     }).then(function(answer) {
         switch(answer.action) {
-            case ' View Products for Sale':
+            case 'View Products for Sale':
                 viewProducts();
             break;
             
             case 'View Low Inventory':
-                multiSearch();
+                viewLow();
             break;
             
             case 'Add to Inventory':
-                rangeSearch();
+                addInventory();
             break;
             
             case 'Add New Product':
-                songSearch();
+                addNew();
             break;
         }
     })
 };
 
-productMenu();
 
-/*
-
-var productInfo = function() {
-    var query = 'SELECT ItemID, ProductName, Price FROM `Products`;'
+var viewProducts = function() {
+     var query = 'SELECT ItemID, ProductName, Price, StockQuantity FROM `Products`';
     connection.query(query, function(err, res) {
         for (var i = 0; i < res.length; i++) {
-            console.log(res[i].ItemID + " | " + res[i].ProductName + " | " + res[i].Price);
+            console.log(res[i].ItemID + " | " + res[i].ProductName + " | " + res[i].Price + " | " + res[i].StockQuantity);
         }
         productMenu();
-    })
+  })
 };
 
+var viewLow = function() {
+    console.log("View Low inventory");
+        productMenu();
+};
+
+var addInventory = function() {
+    console.log("Add inventory");
+        productMenu();
+};
+var addNew = function() {
+    console.log("Add new product");
+        productMenu();
+};
+
+/*
 productInfo();
 
 var productMenu = function(){
@@ -100,3 +113,4 @@ var prompt = require('prompt');
 });
 }
 */
+
