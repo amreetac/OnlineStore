@@ -54,8 +54,13 @@ var viewProducts = function() {
 };
 
 var viewLow = function() {
-    console.log("View Low inventory");
+    var query = 'SELECT ItemID, ProductName, Price, StockQuantity FROM `Products` WHERE StockQuantity < 5';
+    connection.query(query, function(err, res) {
+        for (var i = 0; i < res.length; i++) {
+            console.log(res[i].ItemID + " | " + res[i].ProductName + " | " + res[i].Price + " | " + res[i].StockQuantity);
+        }
         productMenu();
+  })
 };
 
 var addInventory = function() {
