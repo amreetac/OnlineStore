@@ -37,24 +37,28 @@ var prompt = require('prompt');
   // 
   // Get two properties from the user: ID and number of units 
   // 
-  prompt.get(['ItemID', 'StockQuantity'], function (err, res) {
+  prompt.get(['ItemID', 'StockQuantity'], function (err, prompt_result) {
     // 
     // Log the results. 
     // 
 
-    console.log(res.ItemID);
-    console.log(res.StockQuantity);
+    console.log(prompt_result.ItemID);
+    console.log(prompt_result.StockQuantity);
 
-    var query = 'SELECT StockQuantity FROM products WHERE ?'; 
+    var query = 'SELECT StockQuantity, Price FROM products WHERE ItemID = ?'; 
 
-    var database_values = connection.query(query, {StockQuantity: res.StockQuantity}, function(err, res) {
-            for (var i = 0; i < res.length; i++) {
-                if (res.StockQuantity< database_values) {   //how to define variable from database to compare with user input?
+    var database_values = connection.query(query, {ItemID: prompt_result.ItemID}, function(err, query_res) {
+            //console.log(query_res.length);
+            console.log(database_values);
+            for (var i = 0; i < query_res.length; i++) {
+                if (prompt_result.StockQuantity > query_res[i].StockQuantity) {   //how to define variable from database to compare with user input?
                   console.log('Insufficient Quantity')
                 } else {
-                  res[i].StockQuantity--;
-                  console.log('Total cost:' + res.StockQuantity * res.Price);
-                  console.log('Updated Stock Quantity:' + res.StockQuantity);
+                  query_res[i].StockQuantity-= prompt_result.StockQuantity;
+
+                  console.log('Total cost:' + prompt_result.StockQuantity * query_res[i].Price);
+                  console.log('Updated Stock Quantity:' + query_res[i].StockQuantity);
+                  console.log('Price:' + query_res[i].Price);
                   }
             }
 
