@@ -42,28 +42,26 @@ var prompt = require('prompt');
     // Log the results. 
     // 
 
-    console.log(prompt_result.ItemID);
-    console.log(prompt_result.StockQuantity);
+    //console.log(prompt_result.ItemID); Commented consoles are for testing purposes!
+    //console.log(prompt_result.StockQuantity);
 
-    var query = 'SELECT StockQuantity, Price FROM products WHERE ItemID = ?'; 
+    var query = 'SELECT ItemID, StockQuantity, Price FROM products'; 
 
-    var database_values = connection.query(query, {ItemID: prompt_result.ItemID}, function(err, query_res) {
-            console.log(query_res.ItemID);
-            //console.log(database_values);
-            for (var i = 0; i < query_res.length; i++) {
-                if (prompt_result.StockQuantity > query_res[i].StockQuantity) {   
+    var database_values = connection.query(query, function(err, query_res) {
+            //console.log(query_res[prompt_result.ItemID-1].ItemID);
+            //console.log(query_res[prompt_result.ItemID-1].StockQuantity);
+            
+            
+                if (prompt_result.StockQuantity > query_res[prompt_result.ItemID-1].StockQuantity) {   
                   console.log('Insufficient Quantity')
                 } else {
-                  query_res[i].StockQuantity-= prompt_result.StockQuantity;
+                  query_res[prompt_result.ItemID-1].StockQuantity-= prompt_result.StockQuantity;
 
-                  console.log('Total cost:' + prompt_result.StockQuantity * query_res[i].Price);
-                  console.log('Updated Stock Quantity:' + query_res[i].StockQuantity);
-                  console.log('Price:' + query_res[i].Price);
+                  console.log('Total cost:' + prompt_result.StockQuantity * query_res[prompt_result.ItemID-1].Price);
+                  console.log('Updated Stock Quantity:' + query_res[prompt_result.ItemID-1].StockQuantity);
+                  console.log('Price:' + query_res[prompt_result.ItemID-1].Price);
                   }
-            }
-
-  
-    console.log('Command-line input received:');
+            
   });
 });
 }
