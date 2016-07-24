@@ -63,28 +63,6 @@ var viewLow = function() {
   })
 };
 
-/*
-var addInventory = function() {
-  prompt.start();
-  prompt.get(['ItemID', 'StockQuantity'], function (err, prompt_result) {
-
-   var query = 'SELECT ItemID, StockQuantity FROM `Products`';
-     connection.query(query, function(err, query_res) {
-            if (prompt_result.StockQuantity < 0) {   
-                  console.log('Insufficient Quantity')
-                } else {
-                  //query_res[prompt_result.ItemID-1].StockQuantity += prompt_result.StockQuantity;
-                  query_res[prompt_result.ItemID-1].StockQuantity += parseInt(prompt_result.StockQuantity);
-                  console.log('Updated Stock Quantity:' + query_res[prompt_result.ItemID-1].StockQuantity);
-                  }
-                  productMenu();
-        })
-    });
-};
-
-*/
-
-//This was supposed to be my original function
 var addInventory = function() {
     prompt.start();
     prompt.get(['ItemID', 'StockQuantity'], function (err, prompt_result) {
@@ -110,8 +88,6 @@ var addInventory = function() {
 
     });
 }
-
-
 
 
 
@@ -141,8 +117,7 @@ var addNew = function() {
 
     ]).then(function(answer) {
         //console.log(answer.newproduct) For testing purposes
-        //connection.query('INSERT INTO `Products` (`ProductName`,`DepartmentName`, `Price`,`StockQuantity`) SET "`ProductName` = ?", "`DepartmentName` = ?", "`Price` = ?", "`StockQuantity` = ?"', {newproduct: answer.newproduct, answer.dept, answer.price, answer.stock}, function(err, res) {
-            //connection.query('INSERT INTO `Products` (`ProductName`)  SET `ProductName` = ?', {newproduct: answer.newproduct}, function(err, res) {
+        
         connection.query('INSERT INTO `Products` SET ' + 
          "`ProductName` = ?," +
          "`DepartmentName` = ?," + 
@@ -150,13 +125,8 @@ var addNew = function() {
          "`StockQuantity` = ?", 
          [answer.newproduct, answer.dept, answer.price, answer.stock], function(err, res) {
 
-            if(err) throw err;
-/*
-            console.log("New Product: " + answer.newproduct);
-            console.log("Department of New Product: " + answer.dept);
-            console.log("Price of New Product: " + answer.price);
-            console.log("Inventory of New Product: " + answer.stock);
-            */
+        if(err) throw err;
+
         productMenu();
 
         });
