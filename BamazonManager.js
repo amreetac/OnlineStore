@@ -63,59 +63,80 @@ var viewLow = function() {
   })
 };
 
+
 var addInventory = function() {
-    console.log("Add inventory");
-    
-};
-var addNew = function() {
-    console.log("Add new product");
+  prompt.start();
+  prompt.get(['ItemID', 'StockQuantity'], function (err, prompt_result) {
+
+   var query = 'SELECT ItemID, StockQuantity FROM `Products`';
+     connection.query(query, function(err, query_res) {
+            if (prompt_result.StockQuantity < 0) {   
+                  console.log('Insufficient Quantity')
+                } else {
+                  query_res[prompt_result.ItemID-1].StockQuantity+= prompt_result.StockQuantity;
+                  //parseFloat(query_res[prompt_result.ItemID-1].StockQuantity)+= parseFloat(prompt_result.StockQuantity);
+                  console.log('Updated Stock Quantity:' + query_res[prompt_result.ItemID-1].StockQuantity);
+                  }
         productMenu();
+    })
+    });
 };
 
 /*
-productInfo();
-
-var productMenu = function(){
-
-var prompt = require('prompt');
- 
-  // 
-  // Start the prompt 
-  // 
+var addInventory = function() {
   prompt.start();
- 
-  // 
-  // Get two properties from the user: ID and number of units 
-  // 
   prompt.get(['ItemID', 'StockQuantity'], function (err, prompt_result) {
-    // 
-    // Log the results. 
-    // 
 
-    console.log(prompt_result.ItemID);
-    console.log(prompt_result.StockQuantity);
-
-    var query = 'SELECT StockQuantity, Price FROM products WHERE ItemID = ?'; 
-
-    var database_values = connection.query(query, {ItemID: prompt_result.ItemID}, function(err, query_res) {
-            //console.log(query_res.length);
-            //console.log(database_values);
-            
-                if (prompt_result.StockQuantity > query_res.StockQuantity) {   
+   connection.query = "UPDATE Products SET StockQuantity = StockQuantity + ? WHERE ItemID = ?", 
+     [prompt_result.StockQuantity, prompt_result.ItemID], function(err, query_res) {
+            if (prompt_result.StockQuantity < 0) {   
                   console.log('Insufficient Quantity')
                 } else {
-                  query_res.StockQuantity-= prompt_result.StockQuantity;
-
-                  console.log('Total cost:' + prompt_result.StockQuantity * query_res.Price);
-                  console.log('Updated Stock Quantity:' + query_res.StockQuantity);
-                  console.log('Price:' + query_res.Price);
+                  console.log('Updated Stock Quantity:' + query_res[prompt_result.ItemID-1].StockQuantity);
                   }
-            
+        productMenu();
+    }
+    });
+};
 
-  
-    console.log('Command-line input received:');
-  });
-});
-}
 */
 
+/*
+
+var addNew = function() {
+    inquirer.prompt([
+    {
+        name: "newproduct",
+        type: "input",
+        message: "What product would you like to add?"
+    },
+
+    {
+        name: "dept",
+        type: "input",
+        message: "What department does this belong to?"
+    },
+    {
+        name: "price",
+        type: "input",
+        message: "What should be the price?"
+    },
+    {
+        name: "stock",
+        type: "input",
+        message: "How much inventory is available?"
+    }
+    ]).then(function(answer) {
+        console.log(answer.newproduct)
+        connection.query('INSERT INTO `Products` (`ProductName`,`DepartmentName`, `Price`,`StockQuantity`)  SET "`ProductName` = ?", "`DepartmentName` = ?", "`Price` = ?", "`StockQuantity` = ?"', {newproduct: answer.newproduct, answer.dept, answer.price, answer.stock}, function(err, res) {
+            console.log("New Product: " + answer.newproduct);
+            console.log("Department of New Product: " + answer.dept);
+            console.log("Price of New Product: " + answer.price);
+            console.log("Inventory of New Product: " + answer.stock);
+        productMenu();
+
+        })
+    })
+};
+
+*/
