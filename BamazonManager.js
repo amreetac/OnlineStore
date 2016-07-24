@@ -82,7 +82,7 @@ var addInventory = function() {
     });
 };
 
-/*
+/* This was supposed to be my original function
 var addInventory = function() {
   prompt.start();
   prompt.get(['ItemID', 'StockQuantity'], function (err, prompt_result) {
@@ -101,7 +101,7 @@ var addInventory = function() {
 
 */
 
-/*
+
 
 var addNew = function() {
     inquirer.prompt([
@@ -126,9 +126,11 @@ var addNew = function() {
         type: "input",
         message: "How much inventory is available?"
     }
+
     ]).then(function(answer) {
-        console.log(answer.newproduct)
-        connection.query('INSERT INTO `Products` (`ProductName`,`DepartmentName`, `Price`,`StockQuantity`)  SET "`ProductName` = ?", "`DepartmentName` = ?", "`Price` = ?", "`StockQuantity` = ?"', {newproduct: answer.newproduct, answer.dept, answer.price, answer.stock}, function(err, res) {
+        //console.log(answer.newproduct) For testing purposes
+        //connection.query('INSERT INTO `Products` (`ProductName`,`DepartmentName`, `Price`,`StockQuantity`)  SET "`ProductName` = ?", "`DepartmentName` = ?", "`Price` = ?", "`StockQuantity` = ?"', {newproduct: answer.newproduct, answer.dept, answer.price, answer.stock}, function(err, res) {
+            connection.query('INSERT INTO `Products` (`ProductName`)  SET `ProductName` = ?', {newproduct: answer.newproduct}, function(err, res) {
             console.log("New Product: " + answer.newproduct);
             console.log("Department of New Product: " + answer.dept);
             console.log("Price of New Product: " + answer.price);
@@ -139,4 +141,3 @@ var addNew = function() {
     })
 };
 
-*/
