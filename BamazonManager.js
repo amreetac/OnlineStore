@@ -65,7 +65,7 @@ var viewLow = function() {
 
 var addInventory = function() {
     console.log("Add inventory");
-        productMenu();
+    
 };
 var addNew = function() {
     console.log("Add new product");
