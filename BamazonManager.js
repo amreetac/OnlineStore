@@ -73,8 +73,8 @@ var addInventory = function() {
             if (prompt_result.StockQuantity < 0) {   
                   console.log('Insufficient Quantity')
                 } else {
-                  query_res[prompt_result.ItemID-1].StockQuantity+= prompt_result.StockQuantity;
-                  //parseFloat(query_res[prompt_result.ItemID-1].StockQuantity)+= parseFloat(prompt_result.StockQuantity);
+                  //query_res[prompt_result.ItemID-1].StockQuantity += prompt_result.StockQuantity;
+                  query_res[prompt_result.ItemID-1].StockQuantity += parseInt(prompt_result.StockQuantity);
                   console.log('Updated Stock Quantity:' + query_res[prompt_result.ItemID-1].StockQuantity);
                   }
         productMenu();
