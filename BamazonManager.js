@@ -63,7 +63,7 @@ var viewLow = function() {
   })
 };
 
-
+/*
 var addInventory = function() {
   prompt.start();
   prompt.get(['ItemID', 'StockQuantity'], function (err, prompt_result) {
@@ -77,29 +77,41 @@ var addInventory = function() {
                   query_res[prompt_result.ItemID-1].StockQuantity += parseInt(prompt_result.StockQuantity);
                   console.log('Updated Stock Quantity:' + query_res[prompt_result.ItemID-1].StockQuantity);
                   }
-        productMenu();
-    })
-    });
-};
-
-/* This was supposed to be my original function
-var addInventory = function() {
-  prompt.start();
-  prompt.get(['ItemID', 'StockQuantity'], function (err, prompt_result) {
-
-   connection.query = "UPDATE Products SET StockQuantity = StockQuantity + ? WHERE ItemID = ?", 
-     [prompt_result.StockQuantity, prompt_result.ItemID], function(err, query_res) {
-            if (prompt_result.StockQuantity < 0) {   
-                  console.log('Insufficient Quantity')
-                } else {
-                  console.log('Updated Stock Quantity:' + query_res[prompt_result.ItemID-1].StockQuantity);
-                  }
-        productMenu();
-    }
+                  productMenu();
+        })
     });
 };
 
 */
+
+//This was supposed to be my original function
+var addInventory = function() {
+    prompt.start();
+    prompt.get(['ItemID', 'StockQuantity'], function (err, prompt_result) {
+        console.log("prompt_result.ItemID");
+
+
+        if (prompt_result.StockQuantity < 0) {   
+                
+            console.log('Insufficient Quantity');
+            productMenu();
+            return;
+        } 
+
+        connection.query("UPDATE `Products` SET `StockQuantity` = `StockQuantity` + ? WHERE `ItemID` = ?", 
+                        [prompt_result.StockQuantity, prompt_result.ItemID], function(err, query_res) {
+
+            if(err) throw err;
+
+            console.log('Updated Stock Quantity');
+
+            productMenu();
+        });
+
+    });
+}
+
+
 
 
 
@@ -129,15 +141,25 @@ var addNew = function() {
 
     ]).then(function(answer) {
         //console.log(answer.newproduct) For testing purposes
-        //connection.query('INSERT INTO `Products` (`ProductName`,`DepartmentName`, `Price`,`StockQuantity`)  SET "`ProductName` = ?", "`DepartmentName` = ?", "`Price` = ?", "`StockQuantity` = ?"', {newproduct: answer.newproduct, answer.dept, answer.price, answer.stock}, function(err, res) {
-            connection.query('INSERT INTO `Products` (`ProductName`)  SET `ProductName` = ?', {newproduct: answer.newproduct}, function(err, res) {
+        //connection.query('INSERT INTO `Products` (`ProductName`,`DepartmentName`, `Price`,`StockQuantity`) SET "`ProductName` = ?", "`DepartmentName` = ?", "`Price` = ?", "`StockQuantity` = ?"', {newproduct: answer.newproduct, answer.dept, answer.price, answer.stock}, function(err, res) {
+            //connection.query('INSERT INTO `Products` (`ProductName`)  SET `ProductName` = ?', {newproduct: answer.newproduct}, function(err, res) {
+        connection.query('INSERT INTO `Products` SET ' + 
+         "`ProductName` = ?," +
+         "`DepartmentName` = ?," + 
+         "`Price` = ?," +
+         "`StockQuantity` = ?", 
+         [answer.newproduct, answer.dept, answer.price, answer.stock], function(err, res) {
+
+            if(err) throw err;
+/*
             console.log("New Product: " + answer.newproduct);
             console.log("Department of New Product: " + answer.dept);
             console.log("Price of New Product: " + answer.price);
             console.log("Inventory of New Product: " + answer.stock);
+            */
         productMenu();
 
-        })
-    })
-};
+        });
+    });
+}
 
